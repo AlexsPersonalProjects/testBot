@@ -44,69 +44,60 @@ namespace testBot
         {
             //variables
             string command = "";
-            int lengthOfCommand = -1;
-            //filtering messages begin here
-            if (!message.Content.StartsWith('/')) //This is your prefix
-                if (message.Content.StartsWith("poll:"))
-                {
-                    
-                }
-                else
-                {
-                    return Task.CompletedTask;
-                }
-                
+            command = message.Content;
 
             if (message.Author.IsBot) //This ignores all commands from bots
                 return Task.CompletedTask;
 
-            if (message.Content.Contains(' '))
-                lengthOfCommand = message.Content.IndexOf(' ');
-            else
-                lengthOfCommand = message.Content.Length;
-            if (message.Content.StartsWith("poll:"))
-            {
-                command = message.Content.Substring(0, lengthOfCommand - 1).ToLower();
-            }
-            else
-            {
-                command = message.Content.Substring(1, lengthOfCommand - 1).ToLower();
-            }
-                
-            Console.WriteLine(command);
+
+
+            //Console.WriteLine(command);
 
             //Commands begin here
 
-            var thumbsup = 0xD83D;
+            string[] strCommands = { "hello", "age", "poll", "help"};
 
-            if (command.Equals("hello"))
+
+            //Test hello command
+            if (command.Equals("/hello"))
             {
                 message.Channel.SendMessageAsync($@"Hello {message.Author.Mention}");
             }
-            else if (command.Equals("age"))
+            //Test Age command
+            else if (command.Equals("/age"))
             {
                 message.Channel.SendMessageAsync($@"Your account was created at {message.Author.CreatedAt.DateTime.Date}");
             }
-            else if (command.Equals("alligator"))
+            //Huge Alligator
+            else if (command.Equals("/alligator"))
             {
                 message.Channel.SendFileAsync("memes/alligator.jpeg");
             }
-            else if (command.Equals("british") || command.Equals("British"))
+            //like bi'ish people are real
+            else if (command.Equals("/british") || command.Equals("/British"))
             {
                 message.Channel.SendFileAsync("memes/floppa_british.png");
             }
-            else if (command.Equals("poll"))
+            //Simple poll function, will be used to replace poll bot
+            else if (command.StartsWith("poll: "))
             {
+                //Thumbs up will always go first, but if more emojis are added, then they will appear randomly, as it is asynchronous
                 message.AddReactionAsync(new Emoji("👍"));
                 message.AddReactionAsync(new Emoji("👎"));                
+            }
+            else if (command.Equals("/help"))    //Help command to list all commands
+            {
+                string strListCommands = "These are the available commands: ";
+                foreach (string strListedCommand in strCommands)
+                {
+                    strListCommands += strListedCommand + " ";
+                }
+                message.Channel.SendMessageAsync(strListCommands);
             }
             else
             {
 
             }
-
-
-
 
             return Task.CompletedTask;
         }
