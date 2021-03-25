@@ -94,12 +94,52 @@ namespace testBot
                 }
                 message.Channel.SendMessageAsync(strListCommands);
             }
+
+            //Dababy memes
+            else if (command.Contains("dababy"))
+            {
+                //Picks a random dababy file
+                int rnd = RandomNumber(0, 5);
+                if (rnd == 0)
+                {
+                    message.Channel.SendFileAsync("memes/yeah_yeah.wav");
+                }
+                else if (rnd == 1)
+                {
+                    message.Channel.SendFileAsync("memes/i_pull_up.mp3");
+                }
+                else if (rnd ==2)
+                {
+                    message.Channel.SendFileAsync("memes/lets_gooo.mp3");
+                }
+                else if (rnd == 3)
+                {
+                    //weighted x2 cuz its the best one
+                    message.Channel.SendFileAsync("memes/lets_gooo.mp3");
+                }
+                else if (rnd == 4)
+                {
+                    message.Channel.SendFileAsync("memes/Ha.mp3");
+                }
+                else
+                {
+                    Console.Write("This should not run lol");
+                }
+            }
             else
             {
 
             }
 
             return Task.CompletedTask;
+        }
+        // Instantiate random number generator.  
+        private readonly Random _random = new Random();
+
+        // Generates a random number within a range.      
+        public int RandomNumber(int min, int max)
+        {
+            return _random.Next(min, max);
         }
     }
 }
